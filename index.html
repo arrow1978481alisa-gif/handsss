@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Давай держаться за ручки?</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: linear-gradient(135deg, #ffe4ef, #ffd1e3, #ffc0dc);
+    background-size: 300% 300%;
+    animation: gradientMove 10s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', 'Segoe UI', cursive;
+    position: relative;
+    padding: 20px;
+  }
+
+  @keyframes gradientMove {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .floaty {
+    position: fixed;
+    bottom: -60px;
+    pointer-events: none;
+    opacity: 0.9;
+    z-index: 1;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateY(-115vh) rotate(360deg) scale(1.1); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    border-radius: 28px;
+    padding: 32px 28px 36px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+  }
+
+  .cat {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 20px;
+    margin: 0 auto 22px;
+    display: block;
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.25);
+  }
+
+  .question {
+    font-size: clamp(22px, 4.5vw, 40px);
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 1.5px;
+    text-shadow:
+      2px 2px 0 #ff7eb3,
+      4px 4px 0 #ff5c9d,
+      5px 5px 15px rgba(216, 27, 96, 0.35);
+    user-select: none;
+    line-height: 1.3;
+    margin-bottom: 26px;
+  }
+
+  .question span {
+    display: inline-block;
+    animation: wiggle 2.2s ease-in-out infinite;
+  }
+  .question span:nth-child(odd)  { animation-delay: 0.15s; }
+  .question span:nth-child(even) { animation-delay: 0.45s; }
+  .question span:nth-child(3n)   { animation-delay: 0.75s; }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-7deg) translateY(0); }
+    50%      { transform: rotate(7deg) translateY(-10px); }
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    padding: 14px 38px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.3s;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+  }
+
+  #btnYes {
+    background: linear-gradient(135deg, #ff7eb3, #ff5c9d);
+  }
+  #btnYes:hover {
+    background: linear-gradient(135deg, #ff5c9d, #ff3d7f);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(255, 61, 127, 0.5);
+  }
+
+  #btnOfCourse {
+    background: linear-gradient(135deg, #ffb3d1, #ff8ec0);
+  }
+  #btnOfCourse:hover {
+    background: linear-gradient(135deg, #ff8ec0, #ff5c9d);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(255, 92, 157, 0.5);
+  }
+
+  button:active { transform: scale(0.96); }
+
+  .final {
+    display: none;
+    animation: pop 0.5s ease;
+  }
+  .final.show { display: block; }
+
+  @keyframes pop {
+    0%   { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .final h2 {
+    font-size: clamp(24px, 5vw, 44px);
+    color: #fff;
+    text-shadow:
+      2px 2px 0 #ff7eb3,
+      4px 4px 0 #ff5c9d;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+
+  .final p {
+    font-size: clamp(16px, 3vw, 22px);
+    color: #ff5c9d;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div id="questionBlock">
+      <img
+        class="cat"
+        src="https://media1.tenor.com/m/I952i07TducAAAAd/deixa-pfv.gif"
+        alt="Милый котик"
+      >
+      <div class="question">
+        <span>д</span><span>а</span><span>в</span><span>а</span><span>й</span>
+        <span>&nbsp;</span>
+        <span>д</span><span>е</span><span>р</span><span>ж</span><span>а</span><span>т</span><span>ь</span><span>с</span><span>я</span>
+        <span>&nbsp;</span>
+        <span>з</span><span>а</span>
+        <span>&nbsp;</span>
+        <span>р</span><span>у</span><span>ч</span><span>к</span><span>и</span><span>?</span>
+      </div>
+      <div class="buttons">
+        <button id="btnYes" onclick="answer('yes')">да</button>
+        <button id="btnOfCourse" onclick="answer('ofcourse')">конечно</button>
+      </div>
+    </div>
+
+    <div class="final" id="finalBlock">
+      <h2>урааа! 💖</h2>
+      <p>держимся за ручки! 🤝✨</p>
+    </div>
+  </div>
+
+  <script>
+    const symbols = ['💖','💕','💗','❤️','💓','💞','🩷','✨','⭐','🌟','💫','🌸','🤍','🐱'];
+
+    function createFloat() {
+      const el = document.createElement('div');
+      el.className = 'floaty';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (16 + Math.random() * 32) + 'px';
+      const duration = 6 + Math.random() * 6;
+      el.style.animationDuration = duration + 's';
+      el.style.animationDelay = Math.random() * 2 + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), (duration + 3) * 1000);
+    }
+
+    setInterval(createFloat, 320);
+    for (let i = 0; i < 18; i++) setTimeout(createFloat, i * 180);
+
+    function answer() {
+      document.getElementById('questionBlock').style.display = 'none';
+      document.getElementById('finalBlock').classList.add('show');
+      for (let i = 0; i < 60; i++) {
+        setTimeout(createFloat, i * 25);
+      }
+    }
+  </script>
+
+</body>
+</html>
